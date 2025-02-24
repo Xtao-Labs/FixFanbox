@@ -6,7 +6,7 @@ load_dotenv()
 
 class EnvConfig(BaseSettings):
     DEBUG: bool = True
-    DOMAIN: str = "127.0.0.1"
+    LISTEN: str = "0.0.0.0"
     PORT: int = 8080
 
 

@@ -30,15 +30,6 @@ class FanboxUser(BaseModel):
     def name(self) -> str:
         return f"🔞 {self.user.name}" if self.hasAdultContent else self.user.name
 
-    @property
-    def text(self) -> str:
-        return (
-            f"<b>Fanbox User Info</b>\n\n"
-            f"Name: <code>{self.user.name}</code>\n"
-            f'Username: <a href="{self.url}">{self.creatorId}</a>\n'
-            f"Bio: <code>{self.description.strip()}</code>"
-        )
-
 
 class FanboxLitePost(BaseModel):
     id: str
@@ -58,6 +49,7 @@ class FanboxLitePost(BaseModel):
 class FanboxPostBodyBlockType(str, enum.Enum):
     P = "p"
     IMAGE = "image"
+    HEADER = "header"
     UNKNOWN = "unknown"
 
 
@@ -118,12 +110,3 @@ class FanboxPost(FanboxLitePost):
     @property
     def stat(self) -> str:
         return f"❤️ {self.likeCount}・{self.feeRequired} 日元"
-
-    @property
-    def text(self) -> str:
-        return (
-            f"<b>Fanbox Post Info</b>\n\n"
-            f"<code>{self.excerpt.strip()}</code>\n\n"
-            f'<a href="{self.user_url}">{self.user.name}</a> 发表于 {self.create_time}\n'
-            f"❤️ {self.likeCount}・{self.feeRequired} 日元"
-        )

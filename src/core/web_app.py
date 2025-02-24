@@ -4,7 +4,6 @@ import uvicorn
 
 from fastapi import FastAPI
 from persica.factory.component import AsyncInitializingComponent
-from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from src.env import env_config
 
@@ -15,19 +14,11 @@ class WebApp(AsyncInitializingComponent):
         self.web_server = None
         self.web_server_task = None
 
-    def init_web(self):
-        if not env_config.DEBUG:
-            self.app.add_middleware(
-                TrustedHostMiddleware,
-                allowed_hosts=[
-                    env_config.DOMAIN,
-                ],
-            )
-
     async def start(self):
-        self.init_web()
         self.web_server = uvicorn.Server(
-            config=uvicorn.Config(self.app, host="0.0.0.0", port=env_config.PORT)
+            config=uvicorn.Config(
+                self.app, host=env_config.LISTEN, port=env_config.PORT
+            )
         )
         server_config = self.web_server.config
         server_config.setup_event_loop()

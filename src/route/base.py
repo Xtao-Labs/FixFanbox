@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 def get_redirect_response(request: "Request") -> RedirectResponse:
-    new = request.url.replace(netloc="test.fanbox.cc")
+    new = request.url.replace(netloc="official.fanbox.cc")
     return RedirectResponse(url=new, status_code=302)
 
 

@@ -30,6 +30,8 @@ class RenderArticle(AsyncInitializingComponent):
                 text += (
                     f'<img src="{data.imageMap[item.imageId].thumbnailUrl}"/><br/>\n'
                 )
+            elif item.type is FanboxPostBodyBlockType.HEADER:
+                text += f"<h2>{item.text}</h2><br/>\n"
         return text
 
     async def process_article_text(self, post_info: "FanboxPost") -> str:
