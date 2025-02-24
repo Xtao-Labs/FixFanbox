@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+ _______  __  ___   ___  _______    ___      .__   __. .______     ______   ___   ___
+|   ____||  | \  \ /  / |   ____|  /   \     |  \ |  | |   _  \   /  __  \  \  \ /  /
+|  |__   |  |  \  V  /  |  |__    /  ^  \    |   \|  | |  |_)  | |  |  |  |  \  V  /
+|   __|  |  |   >   <   |   __|  /  /_\  \   |  . `  | |   _  <  |  |  |  |   >   <
+|  |     |  |  /  .  \  |  |    /  _____  \  |  |\   | |  |_)  | |  `--'  |  /  .  \
+|__|     |__| /__/ \__\ |__|   /__/     \__\ |__| \__| |______/   \______/  /__/ \__\
+
+Embed Fanbox posts on Telegram
+-->
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="canonical" href="{{ post.url }}"/>
+    <meta property="theme-color" content="#00a8fc"/>
+    <meta property="twitter:site" content="{{ author.name }}"/>
+    <meta property="twitter:creator" content="{{ author.name }}"/>
+    <meta property="twitter:title" content="{{ post.title }} ({{ author.name }})"/>
+    <meta property="twitter:image" content="{{ post.coverImageUrl }}"/>
+    <meta property="twitter:card" content="summary_large_image"/>
+
+    <meta property="og:url" content="{{ post.url }}"/>
+    <meta property="og:image" content="{{ post.coverImageUrl }}"/>
+    <meta property="og:title" content="{{ post.title }} ({{ author.name }})"/>
+    <meta property="og:description" content="{{ description }}"/>
+    {% set site_name = 'pixivFANBOX' %}
+    <meta property="og:site_name" content="{{ post.title }} - {{ author.name }} - {{ site_name }}"/>
+
+    <meta property="author" content="{{ author.name }}">
+    <!-- Telegram -->
+    <meta property="al:android:app_name" content="Medium"/>
+    <meta property="article:published_time" content="{{ published_time }}"/>
+    <meta name="telegram:channel" content="@{{ channel }}" />
+</head>
+<body>
+<section class="section-backgroundImage">
+    <figure class="graf--layoutFillWidth"></figure>
+</section>
+<section class="section--first">
+    If you can see this, your browser is doing something weird with your user agent.
+    <a href="{{ post.url }}">View original post</a>
+</section>
+<article>
+    <!-- cover image -->
+    <img src="{{ post.coverImageUrl }}" alt="coverImage" />
+    <!-- article content -->
+    {{ article }}
+    <!-- stat -->
+    {{ post.stat }}
+    <p><a href="{{ post.url }}">查看原文</a></p>
+    <!-- author -->
+    <details>
+        <summary>作者信息</summary>
+        {% if author.iconUrl %}
+        <img src="{{ author.iconUrl }}" alt="profile picture"/>
+        {% endif %}
+        <p>
+            <a href="{{ post.user_url }}">{{ author.name }}</a>
+        </p>
+    </details>
+    <!-- related posts -->
+    {% if post.nextPost %}
+    <related>
+        <a href="{{ post.user_url }}posts/{{ post.nextPost.id }}">{{ post.nextPost.title }}</a>
+    </related>
+    <br/>
+    {% endif %}
+    {% if post.prevPost %}
+    <related>
+        <a href="{{ post.user_url }}posts/{{ post.prevPost.id }}">{{ post.prevPost.title }}</a>
+    </related>
+    <br/>
+    {% endif %}
+</article>
+</body>
+</html>
