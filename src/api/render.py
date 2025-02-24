@@ -23,15 +23,16 @@ class RenderArticle(AsyncInitializingComponent):
         data = post_info.body
         if not data:
             return text
-        for item in data.blocks:
-            if item.type is FanboxPostBodyBlockType.P:
-                text += f"<p>{item.text}</p><br/>\n"
-            elif item.type is FanboxPostBodyBlockType.IMAGE:
-                text += (
-                    f'<img src="{data.imageMap[item.imageId].thumbnailUrl}"/><br/>\n'
-                )
-            elif item.type is FanboxPostBodyBlockType.HEADER:
-                text += f"<h2>{item.text}</h2><br/>\n"
+        if data.blocks:
+            for item in data.blocks:
+                if item.type is FanboxPostBodyBlockType.P:
+                    text += f"<p>{item.text}</p><br/>\n"
+                elif item.type is FanboxPostBodyBlockType.IMAGE:
+                    text += f'<img src="{data.imageMap[item.imageId].thumbnailUrl}"/><br/>\n'
+                elif item.type is FanboxPostBodyBlockType.HEADER:
+                    text += f"<h2>{item.text}</h2><br/>\n"
+        elif data.text:
+            text += f"<p>{data.text}</p><br/>\n"
         return text
 
     async def process_article_text(self, post_info: "FanboxPost") -> str:
