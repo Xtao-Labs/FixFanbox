@@ -18,11 +18,11 @@ Embed Fanbox posts on Telegram
     <meta property="twitter:site" content="{{ author.name }}"/>
     <meta property="twitter:creator" content="{{ author.name }}"/>
     <meta property="twitter:title" content="{{ post.title }} ({{ author.name }})"/>
-    <meta property="twitter:image" content="{{ post.coverImageUrl }}"/>
+    <meta property="twitter:image" content="{{ post.imageForShare }}"/>
     <meta property="twitter:card" content="summary_large_image"/>
 
     <meta property="og:url" content="{{ post.url }}"/>
-    <meta property="og:image" content="{{ post.coverImageUrl }}"/>
+    <meta property="og:image" content="{{ post.imageForShare }}"/>
     <meta property="og:title" content="{{ post.title }} ({{ author.name }})"/>
     <meta property="og:description" content="{{ description }}"/>
     {% set site_name = 'pixivFANBOX' %}
@@ -32,7 +32,7 @@ Embed Fanbox posts on Telegram
     <!-- Telegram -->
     <meta property="al:android:app_name" content="Medium"/>
     <meta property="article:published_time" content="{{ published_time }}"/>
-    <meta name="telegram:channel" content="@{{ channel }}" />
+    <meta name="telegram:channel" content="@{{ channel }}"/>
 </head>
 <body>
 <section class="section-backgroundImage">
@@ -44,7 +44,11 @@ Embed Fanbox posts on Telegram
 </section>
 <article>
     <!-- cover image -->
-    <img src="{{ post.coverImageUrl }}" alt="coverImage" />
+    <section class="is-imageBackgrounded">
+        <figure>
+            <img src="{{ post.imageForShare }}" alt="coverImage"/>
+        </figure>
+    </section>
     <!-- article content -->
     {{ article }}
     <!-- stat -->
@@ -54,7 +58,7 @@ Embed Fanbox posts on Telegram
     <details>
         <summary>作者信息</summary>
         {% if author.iconUrl %}
-        <img src="{{ author.iconUrl }}" alt="profile picture"/>
+            <img src="{{ author.iconUrl }}" alt="profile picture"/>
         {% endif %}
         <p>
             <a href="{{ post.user_url }}">{{ author.name }}</a>
@@ -62,16 +66,16 @@ Embed Fanbox posts on Telegram
     </details>
     <!-- related posts -->
     {% if post.nextPost %}
-    <related>
-        <a href="{{ post.user_url }}posts/{{ post.nextPost.id }}">{{ post.nextPost.title }}</a>
-    </related>
-    <br/>
+        <related>
+            <a href="{{ post.user_url }}posts/{{ post.nextPost.id }}">{{ post.nextPost.title }}</a>
+        </related>
+        <br/>
     {% endif %}
     {% if post.prevPost %}
-    <related>
-        <a href="{{ post.user_url }}posts/{{ post.prevPost.id }}">{{ post.prevPost.title }}</a>
-    </related>
-    <br/>
+        <related>
+            <a href="{{ post.user_url }}posts/{{ post.prevPost.id }}">{{ post.prevPost.title }}</a>
+        </related>
+        <br/>
     {% endif %}
 </article>
 </body>

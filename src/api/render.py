@@ -38,7 +38,7 @@ class RenderArticle(AsyncInitializingComponent):
     async def process_article_text(self, post_info: "FanboxPost") -> str:
         data = {
             "published_time": post_info.create_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-            "channel": "RubbishXtao",
+            "channel": "shota_audio",
             "post": post_info,
             "author": post_info.user,
         }

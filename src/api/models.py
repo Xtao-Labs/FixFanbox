@@ -87,7 +87,7 @@ class FanboxPostBody(BaseModel):
 
 class FanboxPost(FanboxLitePost):
     body: Optional[FanboxPostBody] = None
-    coverImageUrl: Optional[str]
+    imageForShare: str
     creatorId: str
     excerpt: str
     feeRequired: int
