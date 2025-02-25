@@ -54,28 +54,32 @@ class FanboxPostBodyBlockType(str, enum.Enum):
 
 
 class FanboxPostBodyBlock(BaseModel):
-    type: FanboxPostBodyBlockType
-    raw_type: str
+    type: FanboxPostBodyBlockType = FanboxPostBodyBlockType.UNKNOWN
+    raw_type: str = ""
     text: Optional[str] = None
     imageId: Optional[str] = None
 
     @model_validator(mode="before")
     @classmethod
     def before(cls, values: Any) -> Any:
-        values["raw_type"] = values.pop("type")
-        try:
-            values["type"] = FanboxPostBodyBlockType(values["raw_type"])
-        except ValueError:
-            values["type"] = FanboxPostBodyBlockType.UNKNOWN
+        old_type = values.get("type")
+        if isinstance(old_type, FanboxPostBodyBlockType):
+            values["raw_type"] = old_type.value
+        else:
+            values["raw_type"] = old_type
+            try:
+                values["type"] = FanboxPostBodyBlockType(values["raw_type"])
+            except ValueError:
+                values["type"] = FanboxPostBodyBlockType.UNKNOWN
         return values
 
 
 class FanboxPostBodyImage(BaseModel):
     id: str
-    extension: str
-    width: int
-    height: int
-    originalUrl: str
+    extension: str = ""
+    width: int = 0
+    height: int = 0
+    originalUrl: str = ""
     thumbnailUrl: str
 
 
@@ -111,3 +115,26 @@ class FanboxPost(FanboxLitePost):
     @property
     def stat(self) -> str:
         return f"❤️ {self.likeCount}・{self.feeRequired} 日元"
+
+
+class KemonoPostInfo(BaseModel):
+    id: str
+    user: str
+    title: str
+    content: str
+
+
+class KemonoPostPreview(BaseModel):
+    type: str
+    server: str
+    name: str
+    path: str
+
+    @property
+    def url(self) -> str:
+        return f"https://img.kemono.su/thumbnail/data" + self.path
+
+
+class KemonoPost(BaseModel):
+    post: KemonoPostInfo
+    previews: List[KemonoPostPreview]

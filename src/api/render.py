@@ -2,18 +2,21 @@ from persica.factory.component import AsyncInitializingComponent
 
 from src import template_env
 from src.api.fanbox import FanBoxApi
+from src.api.kemono import KemonoApi
 from src.api.models import FanboxPost, FanboxPostBodyBlockType
 from src.error import ArticleNotFoundError
 
 
 class RenderArticle(AsyncInitializingComponent):
-    def __init__(self, fanbox_api: FanBoxApi):
+    def __init__(self, fanbox_api: FanBoxApi, kemono_api: KemonoApi):
         self.fanbox_api = fanbox_api
+        self.kemono_api = kemono_api
         self.template = template_env.get_template("article.jinja2")
 
     async def get_post_info(self, post_id: str):
         try:
-            return await self.fanbox_api.get_fanbox_post(post_id)
+            post = await self.fanbox_api.get_fanbox_post(post_id)
+            return await self.kemono_api.patch_post_info(post)
         except AssertionError:
             raise ArticleNotFoundError(post_id)
 
