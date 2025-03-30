@@ -125,14 +125,22 @@ class KemonoPostInfo(BaseModel):
 
 
 class KemonoPostPreview(BaseModel):
-    type: str
-    server: str
+    type: Optional[str] = None
+    server: Optional[str] = None
     name: str
     path: str
+    content: bool = False
 
     @property
     def url(self) -> str:
+        if self.content:
+            return self.path
         return f"https://img.kemono.su/thumbnail/data" + self.path
+
+    @classmethod
+    def from_src(cls, src: url) -> "KemonoPostPreview":
+        name = src.split("/")[-1]
+        return cls(name=name, path=src, content=True)
 
 
 class KemonoPost(BaseModel):
