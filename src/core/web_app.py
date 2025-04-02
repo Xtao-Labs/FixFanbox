@@ -15,6 +15,8 @@ class WebApp(AsyncInitializingComponent):
         self.web_server_task = None
 
     async def start(self):
+        if not env_config.START_WEB:
+            return
         self.web_server = uvicorn.Server(
             config=uvicorn.Config(
                 self.app, host=env_config.LISTEN, port=env_config.PORT
