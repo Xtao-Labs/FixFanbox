@@ -87,6 +87,7 @@ class FanboxPostBody(BaseModel):
     blocks: Optional[List[FanboxPostBodyBlock]] = None
     imageMap: Optional[Dict[str, FanboxPostBodyImage]] = None
     text: Optional[str] = None
+    images: Optional[List[FanboxPostBodyImage]] = None
 
 
 class FanboxPost(FanboxLitePost):

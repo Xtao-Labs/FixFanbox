@@ -26,6 +26,9 @@ class RenderArticle(AsyncInitializingComponent):
         data = post_info.body
         if not data:
             return text
+        if data.images:
+            for img in data.images:
+                text += f'<img src="{img.thumbnailUrl}"/><br/>\n'
         if data.blocks:
             for item in data.blocks:
                 if item.type is FanboxPostBodyBlockType.P:
